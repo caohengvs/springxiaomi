@@ -1,0 +1,9 @@
+*.class
+*.jar
+*.iml
+*.log
+*.war
+.idea
+*.txt
+db.properties
+!abc.txt

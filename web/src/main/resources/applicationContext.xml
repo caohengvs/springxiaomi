@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--        使用properties文件 获取 连接池的信息-->
+    <context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
+    <!--        连接池-->
+    <bean id="druidDataSources" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+          destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"></property>
+        <property name="url" value="${jdbc.url}"></property>
+        <property name="username" value="${jdbc.username}"></property>
+        <property name="password" value="${jdbc.password}"></property>
+    </bean>
+
+
+    <!--
+                取代了 mybatis的配置文件
+                sql是线程唯一 全局不唯一
+                需要配置 1 和连接池相关的  2  mapper文件 3 别名 4 插件
+    -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--    1连接池-->
+        <property name="dataSource" ref="druidDataSources"></property>
+        <!--    2 mapper 如果在同一目录下 并且同名 则可以省略-->
+        <!--    <property name="mapperLocations" value="classpath:com/sy/mapper/*.xml"></property>-->
+
+        <!--    3 别名 只是填充了缺省包的 位置-->
+        <property name="typeAliasesPackage" value="com.sy.pojo"></property>
+
+        <!--    4 插件  mybatis 中的插件 配置方式基本不变-->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <value>reasonable=true</value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+
+    <!--
+                扫描所有的mapper 为每个Dao定制实现类
+                Dao实现的对象 会纳入工厂  beanId 的 名字为 首字母小写的接口类名
+                需要 1 Dao接口  2 Dao映射文件 3  sqlSession
+    -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--    Dao接口-->
+        <property name="basePackage" value="com.sy.mapper"></property>
+        <!--    赋值名字  而不是factory
+                如果当前工厂中只有一个sqlSessionFactory  可以省略
+                如果有2个数据库 或者 连接池 即 有几个数据源则需要 多少套
+        -->
+<!--        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>-->
+    </bean>
+
+    <!--        事务管理  tx-->
+    <bean id="tx" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--    事务管理 需要依赖数据源  即数据库的  事务功能-->
+        <property name="dataSource" ref="druidDataSources"></property>
+    </bean>
+
+
+    <!--        注解的扫描(范围) 实现注解的功能-->
+    <context:component-scan base-package="com.sy"></context:component-scan>
+    <!--        支持注解 实现配置   -->
+    <tx:annotation-driven transaction-manager="tx"></tx:annotation-driven>
+    <!--        支持@Aspectj       -->
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+</beans>

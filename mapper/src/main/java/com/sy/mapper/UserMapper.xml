@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql-->
+<mapper namespace="com.sy.mapper.UserMapper">
+    <insert id="add" parameterType="com.sy.pojo.User">
+        insert into tb_user (username,password,email,gender,flag,role,code) values (#{username},#{password},#{email},#{gender},#{flag},#{role},#{code});
+    </insert>
+    <update id="update" parameterType="com.sy.pojo.User">
+        update tb_user set username=#{username},password=#{password},email=#{email},gender=#{gender},flag=#{flag} where id=#{id}
+    </update>
+    <delete id="delete">
+        delete from tb_user where id =#{id}
+    </delete>
+
+    <select id="findAll" resultType="com.sy.pojo.User">
+        select * from tb_user
+    </select>
+    <select id="findById" resultType="com.sy.pojo.User">
+        select * from tb_user where id=#{id}
+    </select>
+    <select id="findByUserNameAndPassword" resultType="com.sy.pojo.User">
+        select * from tb_user where username=#{username} and password=#{passsword}
+    </select>
+    
+    <select id="findByUserName" resultType="com.sy.pojo.User">
+        select * from tb_user where username=#{username}
+    </select>
+
+<!--    一对多 resultMap练习-->
+<!--    <resultMap id="order" type="com.sy.pojo.User" autoMapping="true">-->
+<!--        <id property="id" column="id"></id>-->
+<!--        <result property="username" column="user_id"></result>-->
+<!--        <result property="password" column="password"></result>-->
+<!--        <association property="id" column="id" autoMapping="true">-->
+<!--            <id property="id" column="user_id"></id>-->
+<!--            <result property="oo" column="oo"></result>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+<!--    <select id="queryUserAndOrder" >-->
+<!--        select-->
+<!--        o.id,-->
+<!--        o.user_id,-->
+<!--        o.number,-->
+<!--        o.createtime,-->
+<!--        o.note,-->
+<!--        u.user,-->
+<!--        u.address-->
+<!--        from-->
+<!--        `order` o-->
+<!--        left join `user` u on o.id = u.id-->
+<!--    </select>-->
+</mapper>
