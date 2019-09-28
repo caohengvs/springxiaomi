@@ -8,7 +8,6 @@
   <component name="ChangeListManager">
     <list default="true" id="dba45c97-4586-40b0-94c2-0d60e938592f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mapper/src/main/java/com/sy/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/mapper/src/main/java/com/sy/mapper/UserMapper.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +55,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.import" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -191,7 +190,8 @@
       <workItem from="1569577207060" duration="43000" />
       <workItem from="1569582834911" duration="1307000" />
       <workItem from="1569588707834" duration="2431000" />
-      <workItem from="1569634251793" duration="1087000" />
+      <workItem from="1569634251793" duration="1946000" />
+      <workItem from="1569639849250" duration="22000" />
     </task>
     <servers />
   </component>
